@@ -1,0 +1,108 @@
+﻿@import url(http://fonts.googleapis.com/css?family=Oswald:700,400);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+body {
+    background-color: #fff;
+    color: #666;
+    font-family: 'Open Sans', arial, sans-serif;
+    width: auto;
+    margin: 0;
+}
+
+header {
+    display: block;
+    height: 100px;
+}
+
+#border {
+    width: auto;
+    border-bottom: 5px solid black;
+}
+
+h1 {
+    font-weight: normal;
+    margin: 28px 0 0 25px;
+    float: left;
+    width: 225px;
+    height: 90px;
+    white-space: nowrap;
+    font-weight: 700;
+}
+
+
+
+nav {
+    font-family: oswald, arial, sans-serif;
+    float: right;
+    width: 600px;
+    padding-top: 30px;
+    font-size: 1.75em;
+    text-align: right;
+    text-transform: uppercase;
+}
+
+
+
+nav a:hover, a.current {
+    color: #d71a00;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+#content img{
+    float:left;
+    padding-right:25px;
+    padding-left:50px;
+}
+
+.name-table{
+    padding-left:400px;
+    opacity:0;
+    margin-bottom:150px;
+    width:auto;
+    position:relative;
+}
+
+
+#content a{
+    display:block;
+}
+
+
+.cl-effect-1 a::before,
+.cl-effect-1 a::after {
+    display: inline-block;
+    opacity: 0;
+    -webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+    -moz-transition: -moz-transform 0.3s, opacity 0.2s;
+    transition: transform 0.3s, opacity 0.2s;
+}
+
+.cl-effect-1 a::before {
+    margin-right: 10px;
+    content: '[';
+    -webkit-transform: translateX(20px);
+    -moz-transform: translateX(20px);
+    transform: translateX(20px);
+}
+
+.cl-effect-1 a::after {
+    margin-left: 10px;
+    content: ']';
+    -webkit-transform: translateX(-20px);
+    -moz-transform: translateX(-20px);
+    transform: translateX(-20px);
+}
+
+.cl-effect-1 a:hover::before,
+.cl-effect-1 a:hover::after,
+.cl-effect-1 a:focus::before,
+.cl-effect-1 a:focus::after {
+    opacity: 1;
+    -webkit-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    transform: translateX(0px);
+}

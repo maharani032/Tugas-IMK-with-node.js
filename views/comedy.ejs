@@ -1,0 +1,59 @@
+<%- include  ("component/header-comedy")-%> 
+<header>
+    <h1>ReFrain</h1>
+        <nav class="cl-effect-1">
+            <a href="/" class="nav-bar">Home</a>
+            <a href="/quotes">Quotes</a>
+            <a href="/about">About Us</a>
+            <a href="/home">Login/Sign Up</a>
+        </nav>
+</header>
+
+<div class="component">
+
+    <ul class="align">
+        <% posts.forEach(post => { %>
+        <li>
+            <figure class='book'>
+        
+        
+                <ul class='hardcover_front'>
+                    <li>
+                        <div class="coverDesign yellow">
+                            <span class="ribbon">NEW</span>
+                            <h1><%= post.title.substring(0,11) %> </h1>
+                        </div>
+                    </li>
+                    <li></li>
+                </ul>
+        
+        
+                <ul class='page'>
+                    <li></li>
+                    <li>
+                        <a class="btn" href="/<%= genre %> /<%= post._id %> ">Read</a>
+                    </li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+        
+        
+                <ul class='hardcover_back'>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <ul class='book_spine'>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <figcaption>
+                    <h1>Cerita </h1>
+                    <span><%= post.title %> </span>
+                    <p><%= post.content.substring(0,100) %> </p>
+                </figcaption>
+            </figure>
+        </li>
+        <% }) %>
+    </ul>
+</div>

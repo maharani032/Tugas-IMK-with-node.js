@@ -1,0 +1,52 @@
+
+@import url(http://fonts.googleapis.com/css?family=Lato:300,400,700);
+
+
+*, *:after, *:before { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+html { font-size: 100%; padding: 0; margin: 0;}
+
+.clearfix:before, .clearfix:after { content: " "; display: table; }
+.clearfix:after { clear: both; }
+
+body {
+    background-color: #fff;
+    color: #666;
+    font-family: 'Open Sans', arial, sans-serif;
+    width: auto;
+    margin: 0;
+}
+
+a {
+	color: #aaa;
+	text-decoration: none;
+}
+
+a:hover,
+a:active {
+	color: #333;
+}
+
+.container > header {
+	margin: 0 auto;
+	padding: 2em;
+}
+
+.container > header {
+	text-align: center;
+	background: rgba(0,0,0,0.01);
+}
+
+.container > header h1 {
+	font-size: 2.625em;
+	line-height: 1.3;
+	margin: 0;
+	font-weight: 300;
+}
+
+.container > header span {
+	display: block;
+	font-size: 60%;
+	opacity: 0.8;
+	padding: 0 0 0.6em 0.1em;
+}
+
