@@ -8,6 +8,10 @@ const passport = require( "passport" );
 const passportLocalMongoose = require( "passport-local-mongoose" );
 const GoogleStrategy = require( 'passport-google-oauth20' ).Strategy;
 const findOrCreate = require( 'mongoose-findorcreate' );
+const marked = require( 'marked' )
+const createDomPurify = require( 'dompurify' )
+const { JSDOM } = require( 'jsdom' )
+const dompurify = createDomPurify( new JSDOM().window )
 
 const app = express();
 
@@ -38,10 +42,36 @@ const userSchema = new mongoose.Schema( {
     googleId: String,
 } );
 const postSchema = new mongoose.Schema( {
+    Deskripsi: {
+        type: String,
+        required: true
+    },
     write: String,
-    title: String,
-    content: String,
-    genre: String
+    title: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    content: {
+        type: String,
+        required: true
+    },
+    genre: {
+        type: String,
+        required: true
+    },
+    html: {
+        type: String,
+        requiredt: true
+    }
+} );
+postSchema.pre( "validate", function ( next ) 
+{
+    if ( this.content ) {
+        this.html = dompurify.sanitize( marked( this.content ) )
+    }
+
+    next()
 } );
 userSchema.plugin( passportLocalMongoose );
 userSchema.plugin( findOrCreate );
@@ -113,8 +143,7 @@ app.get( "/:postGenre/:posttitle", ( req, res ) =>
             }
             else {
                 res.render( "post", {
-                    title: post.title,
-                    content: post.content
+                    post: post
                 } );
             }
         }
@@ -126,7 +155,8 @@ app.post( "/compose", ( req, res ) =>
         title: req.body.postTitle,
         content: req.body.postBody,
         genre: req.body.postGenre,
-        write: req.body.postPenulis
+        write: req.body.postPenulis,
+        Deskripsi: req.body.postDeskripsi
     } );
     post.save();
     res.redirect( "/" )

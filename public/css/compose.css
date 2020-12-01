@@ -18,7 +18,7 @@ header {
 
 header h1 {
   font-weight: normal;
-  margin: 28px 0 0 0;
+  margin: 28px 0 0 3%;
   float: left;
   width: 225px;
   height: 90px;
@@ -34,6 +34,7 @@ nav {
   font-size: 1.75em;
   text-align: right;
   text-transform: uppercase;
+  margin-right: 3%;
 }
 
 nav a {

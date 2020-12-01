@@ -14,20 +14,33 @@
 
 <form action="/compose" method="post">
     <div class="form-group">
-        <label>Penulis</label>
-        <input class="form-control" type="text" name="postPenulis">
+        <label for="Penulis">Penulis</label>
+        <input class="form-control " type="text" name="postPenulis">
+    </div>
+    <div class="form-group">
         <label for='genre'>Genre</label>
         <select class='form-control' id="genre" name='postGenre'>
             <option value="Horror">Horror</option>
             <option value="Romance">Romance</option>
             <option value="Comedy">Comedy</option>
-        </select>
+    </select>
+    </div>
+      <div class="form-group">
         <label>Title</label>
         <input class="form-control" type="text" name="postTitle">
-        <label>Post</label>
-            <textarea class="form-control" type="text" name="postBody" id="" cols="15" rows="30">
+      </div>
+      <div class="form-group">
+            <label>Deskripsi</label>
+            <textarea class="form-control" type="text" name="postDeskripsi" id="">
             </textarea>
-    </div>
+      </div>
+       <div class="form-group">
+        <label>Post</label>
+        <textarea class="form-control" type="text" name="postBody" id="" rows="5" cols="50" >
+        </textarea>
+       </div>
+       
+    <a href="/" class="btn btn-secondary">Cancel</a>
     <button class="btn btn-primary" type="submit" name="button">
         Publish
     </button>

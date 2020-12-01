@@ -6,7 +6,7 @@ body {
   color: white;
   font-family: "Open Sans", arial, sans-serif;
   width: auto;
-  margin: 0 5%;
+  margin: 0;
 }
 
 header {
@@ -24,6 +24,7 @@ header h1 {
   height: 90px;
   white-space: nowrap;
   font-weight: 700;
+  margin-left: 3%;
 }
 
 .cl-effect-1 a::before,
@@ -69,6 +70,7 @@ nav {
   font-size: 1.75em;
   text-align: right;
   text-transform: uppercase;
+  margin-right: 3%;
 }
 
 nav a:hover,
