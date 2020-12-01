@@ -100,6 +100,26 @@ app.get( "/:postGenre", ( req, res ) =>
         } )
     } );
 } );
+app.get( "/:postGenre/:posttitle", ( req, res ) =>
+{
+    postGenre = req.params.postGenre;
+    topic = req.params.posttitle;
+    Post.findOne( { title: topic, genre: postGenre }, ( err, post ) =>
+    {
+        if ( !err ) {
+            if ( !post ) {
+
+                res.redirect( "/compose" );
+            }
+            else {
+                res.render( "post", {
+                    title: post.title,
+                    content: post.content
+                } );
+            }
+        }
+    } );
+} )
 app.post( "/compose", ( req, res ) =>
 {
     const post = new Post( {
