@@ -153,43 +153,26 @@ app.get( "/logout", function ( req, res )
     res.redirect( "/" );
 } );
 
-// app.get( "/compose", ( req, res ) =>
+// app.get( "/:postGenre/:posttitle", ( req, res ) =>
 // {
-//     res.render( "compose" )
-// } );
+//     postGenre = req.params.postGenre;
+//     topic = req.params.posttitle;
+//     Post.findOne( { title: topic, genre: postGenre }, ( err, post ) =>
+//     {
+//         if ( !err ) {
+//             if ( !post ) {
 
-app.get( "/:postGenre/:posttitle", ( req, res ) =>
-{
-    postGenre = req.params.postGenre;
-    topic = req.params.posttitle;
-    Post.findOne( { title: topic, genre: postGenre }, ( err, post ) =>
-    {
-        if ( !err ) {
-            if ( !post ) {
+//                 res.redirect( "/compose" );
+//             }
+//             else {
+//                 res.render( "post", {
+//                     post: post
+//                 } );
+//             }
+//         }
+//     } );
+// } )
 
-                res.redirect( "/compose" );
-            }
-            else {
-                res.render( "post", {
-                    post: post
-                } );
-            }
-        }
-    } );
-} )
-
-app.post( "/compose", ( req, res ) =>
-{
-    const post = new Post( {
-        title: req.body.postTitle,
-        content: req.body.postBody,
-        genre: req.body.postGenre,
-        write: req.body.postPenulis,
-        Deskripsi: req.body.postDeskripsi
-    } );
-    post.save();
-    res.redirect( "/" )
-} );
 
 app.post( "/register", function ( req, res )
 {
@@ -207,7 +190,19 @@ app.post( "/register", function ( req, res )
         }
     } );
 } );
+app.post( "/profile", ( req, res ) =>
+{
+    const post = new Post( {
+        title: req.body.postTitle,
+        content: req.body.postBody,
+        genre: req.body.postGenre,
+        write: req.body.postPenulis,
+        Deskripsi: req.body.postDeskripsi
+    } );
+    post.save();
 
+    res.redirect( "/Home" )
+} )
 app.get( "/Home", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
@@ -238,18 +233,51 @@ app.get( "/profile", ( req, res ) =>
         res.redirect( "/" )
     }
 } )
+
+app.get( "/Home/Romance", ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        Post.find( { genre: "Romance" }, ( err, posts ) =>
+        {
+            res.render( "comedy-akun", {
+                posts: posts,
+                genre: "Romance"
+            } )
+
+        } )
+    } else {
+        res.redirect( "/" )
+    }
+} );
 app.get( "/Home/Horror", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
-        res.render( "comedy-akun", {
-            posts: posts,
-            genre: "Horror"
+        Post.find( { genre: "Horror" }, ( err, posts ) =>
+        {
+            res.render( "comedy-akun", {
+                posts: posts,
+                genre: "Horror"
+            } )
         } )
     } else {
         res.redirect( "/" )
     }
 } )
+app.get( "/Home/Comedy", ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        Post.find( { genre: "Comedy" }, ( err, posts ) =>
+        {
+            res.render( "comedy-akun", {
+                posts: posts,
+                genre: "Comedy"
+            } )
 
+        } )
+    } else {
+        res.redirect( "/" )
+    }
+} )
 let port = process.env.PORT;
 if ( port == null || port == "" ) {
     port = 3000;

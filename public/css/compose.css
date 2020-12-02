@@ -5,7 +5,7 @@ body {
   background-color: #fff;
   color: #666;
   font-family: "Open Sans", arial, sans-serif;
-  width: auto;
+  /* width: 900px; */
   margin: 0;
 }
 #input {
