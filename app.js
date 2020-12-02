@@ -69,9 +69,6 @@ const postSchema = new mongoose.Schema( {
     }
 } );
 const userSchema = new mongoose.Schema( {
-    nama: {
-        type: String
-    },
     email: {
         type: String
     },
@@ -90,7 +87,7 @@ postSchema.pre( "validate", function ( next )
 } );
 
 userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
-userSchema.plugin( passportLocalMongoose );
+userSchema.plugin( passportLocalMongoose, { usernameField: "username" } );
 // userSchema.plugin( findOrCreate );
 // postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
@@ -237,6 +234,17 @@ app.get( "/profile", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
         res.render( "profile" )
+    } else {
+        res.redirect( "/" )
+    }
+} )
+app.get( "/Home/Horror", ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        res.render( "comedy-akun", {
+            posts: posts,
+            genre: "Horror"
+        } )
     } else {
         res.redirect( "/" )
     }

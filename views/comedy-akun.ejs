@@ -1,0 +1,56 @@
+<%- include  ("component/header-comedy")-%>
+<%-include("component/navbar-akun")-%>
+<div id="border">
+</div>
+<div class="component">
+
+    <ul class="align">
+        <% posts.forEach(post => { %>
+        <li>
+            <figure class='book'>
+
+
+                <ul class='hardcover_front'>
+                    <li>
+                        <div class="coverDesign yellow">
+                            <span class="ribbon">NEW</span>
+                            <h1><%= post.title.substring(0,11) %> </h1>
+                        </div>
+                    </li>
+                    <li></li>
+                </ul>
+
+
+                <ul class='page'>
+                    <li></li>
+                    <li>
+                        <a class="btn" href="/<%=post.genre%>/<%= post.title %>">Read</a>
+                    </li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+
+
+                <ul class='hardcover_back'>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <ul class='book_spine'>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <figcaption>
+                    <h1>Cerita </h1>
+                    <span><%= post.title %> </span>
+                    <p><%= post.Deskripsi %> </p>
+                </figcaption>
+            </figure>
+        </li>
+        <% }) %>
+    </ul>
+</div>
+<div class="add-story">
+    
+</div>
+<%- include ("component/footer") %>
