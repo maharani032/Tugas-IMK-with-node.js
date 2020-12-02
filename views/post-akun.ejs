@@ -1,0 +1,37 @@
+<%- include ("component/header-post") -%>
+<%-include("component/navbar-akun")-%>
+<div id="border">
+</div>
+<section id="content">
+    <div class="title">
+        <h2><%= post.title %> </h2>
+    </div>
+    <div class="content">
+        <div class="nav-story">
+            <h3>Cerita Horror Lainnya</h3>
+            <ul>
+                <li>Undefined</li>
+                <li>Undefined</li>
+                <li>Undefined</li>
+            </ul>
+        </div>
+        <div class="story">
+            <%- post.html %>
+        </div>
+        <a class="ikon" href="">
+            <img src="https://www.flaticon.com/svg/static/icons/svg/1076/1076745.svg" alt="" style="width: 3%;">
+        </a>
+    </div>
+    <div id="comment-list">
+        <h1>Daftar Komentar : </h1>
+    </div>
+
+    <form action="#" id="add-comment">
+        <h2>Komentarlah di bawah sini : </h2>
+        <label for="username">Nama</label><input type="text" id="Nama" name="Nama" placeholder="Nama" />
+        <label for="comment">Komentar</label><textarea id="Komentar" name="Komentar" placeholder="Komentar"></textarea>
+        <input type="submit" value="Post" id="submit" />
+    </form>
+</section>
+<script src="/logic/Comment.js"></script>
+<%- include  ("component/footer")-%>

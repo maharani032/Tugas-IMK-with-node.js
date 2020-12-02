@@ -1,0 +1,76 @@
+<%- include  ("component/header-about")-%>
+<%- include ("component/navbar-menu") -%>
+<div id="border">
+</div>
+<section id="content">
+    <div class="name-table">
+        <img src="Assets/Reggy.png" />
+        <h2>Reggy Samius</h2>
+        <div class="profile">
+            <a>NIM : 19051204047</a>
+            <a>Hobby : Tidur</a>
+            <a>Kesukaan : Semua yang manis-manis</a>
+            <a>Kebencian : Meremehkan hal kecil</a>
+            <a>Motto Hidup : Aku bukanlah apa-apa tanpa Allah Azza Wa Jalla</a>
+        </div>
+    </div>
+    <div class="name-table">
+        <img src="Assets/Maharani.png" />
+        <h2>Maharani Nirmala D</h2>
+        <div class="profile">
+            <a>NIM : 19051204032</a>
+            <a>Hobby : -</a>
+            <a>Kesukaan : -</a>
+            <a>Kebencian : -</a>
+            <a>Motto Hidup : -</a>
+        </div>
+    </div>
+    <div class="name-table">
+        <img src="Assets/Andhi.png" width="270" height="270" />
+        <h2>Andi Rhifqy Rafif Raif.</h2>
+        <div class="profile">
+            <a>NIM : 19051204028</a>
+            <a>Hobby : -</a>
+            <a>Kesukaan : -</a>
+            <a>Kebencian : -</a>
+            <a>Motto Hidup : -</a>
+        </div>
+    </div>
+    <div class="name-table">
+        <img src="Assets/Pradya.png" width="270" height="270" />
+        <h2>Pradnya Paramitha</h2>
+        <div class="profile">
+            <a>NIM : 19051204023</a>
+            <a>Hobby : -</a>
+            <a>Kesukaan : -</a>
+            <a>Kebencian : -</a>
+            <a>Motto Hidup : -</a>
+        </div>
+    </div>
+    <div class="name-table">
+        <img src="Assets/Miracle.png" />
+        <h2>Nashar Miracle.</h2>
+        <div class="profile">
+            <a>NIM : 19051204026</a>
+            <a>Hobby : -</a>
+            <a>Kesukaan : -</a>
+            <a>Kebencian : -</a>
+            <a>Motto Hidup : -</a>
+        </div>
+    </div>
+    <div class="name-table">
+        <h2 class="text">Penulis Cerita :</h2>
+    </div>
+    
+    <% posts.forEach(post => { %>
+    <div class="name-table user">
+        <i class="far fa-user fa-7x img"></i>
+        <h2><%= post.write %> </h2>
+        <div class="profile">
+        </div>
+    </div>
+    <% }) %>
+</section>
+
+<script src="/logic/FrameW.js"></script>
+<%- include ("component/footer") %> 

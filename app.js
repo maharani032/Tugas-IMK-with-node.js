@@ -136,6 +136,16 @@ app.get( "/Romance", ( req, res ) =>
         } )
     } )
 } );
+app.get( "/about", ( req, res ) =>
+{
+    Post.find( {}, ( err, posts ) =>
+    {
+        res.render( "about", {
+            posts: posts
+            // genre: "Romance"
+        } )
+    } )
+} );
 app.get( "/Horror", ( req, res ) =>
 {
     Post.find( { genre: "Horror" }, ( err, posts ) =>
@@ -153,25 +163,57 @@ app.get( "/logout", function ( req, res )
     res.redirect( "/" );
 } );
 
-// app.get( "/:postGenre/:posttitle", ( req, res ) =>
-// {
-//     postGenre = req.params.postGenre;
-//     topic = req.params.posttitle;
-//     Post.findOne( { title: topic, genre: postGenre }, ( err, post ) =>
-//     {
-//         if ( !err ) {
-//             if ( !post ) {
-
-//                 res.redirect( "/compose" );
-//             }
-//             else {
-//                 res.render( "post", {
-//                     post: post
-//                 } );
-//             }
-//         }
-//     } );
-// } )
+app.get( "/Comedy/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    Post.findOne( { title: topic, genre: "Comedy" }, ( err, post ) =>
+    {
+        if ( !err ) {
+            if ( !post ) {
+                res.redirect( "/" );
+            }
+            else {
+                res.render( "post", {
+                    post: post
+                } );
+            }
+        }
+    } );
+} );
+app.get( "/Horror/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    Post.findOne( { title: topic, genre: "Horror" }, ( err, post ) =>
+    {
+        if ( !err ) {
+            if ( !post ) {
+                res.redirect( "/" );
+            }
+            else {
+                res.render( "post", {
+                    post: post
+                } );
+            }
+        }
+    } );
+} );
+app.get( "/Romance/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
+    {
+        if ( !err ) {
+            if ( !post ) {
+                res.redirect( "/" );
+            }
+            else {
+                res.render( "post", {
+                    post: post
+                } );
+            }
+        }
+    } );
+} )
 
 
 app.post( "/register", function ( req, res )
@@ -278,6 +320,63 @@ app.get( "/Home/Comedy", ( req, res ) =>
         res.redirect( "/" )
     }
 } )
+app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    if ( req.isAuthenticated() ) {
+        Post.findOne( { title: topic, genre: "Comedy" }, ( err, post ) =>
+        {
+            if ( !err ) {
+                if ( !post ) {
+                    res.redirect( "/Home" );
+                }
+                else {
+                    res.render( "post-akun", {
+                        post: post
+                    } );
+                }
+            }
+        } );
+    }
+} );
+app.get( "/Home/Horror/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    if ( req.isAuthenticated() ) {
+        Post.findOne( { title: topic, genre: "Horror" }, ( err, post ) =>
+        {
+            if ( !err ) {
+                if ( !post ) {
+                    res.redirect( "/Home" );
+                }
+                else {
+                    res.render( "post-akun", {
+                        post: post
+                    } );
+                }
+            }
+        } );
+    }
+} );
+app.get( "/Home/Romance/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    if ( req.isAuthenticated() ) {
+        Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
+        {
+            if ( !err ) {
+                if ( !post ) {
+                    res.redirect( "/Home" );
+                }
+                else {
+                    res.render( "post-akun", {
+                        post: post
+                    } );
+                }
+            }
+        } );
+    }
+} );
 let port = process.env.PORT;
 if ( port == null || port == "" ) {
     port = 3000;
