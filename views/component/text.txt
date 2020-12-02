@@ -1,0 +1,17 @@
+<header>
+    <h1>ReFrain</h1>
+        <nav class="cl-effect-1 navbar navbar-expand-md mb-5">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a href="/" class="nav-bar">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/quotes" >Quotes</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/about">About Us</a>
+                </li>
+          
+            </ul>
+        </nav>
+</header>

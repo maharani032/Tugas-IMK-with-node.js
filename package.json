@@ -19,6 +19,7 @@
     "marked": "^1.2.5",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.0",
+    "mongoose-encryption": "^2.0.3",
     "mongoose-findorcreate": "^3.0.0",
     "passport": "^0.4.1",
     "passport-google-oauth20": "^2.0.0",

@@ -1,17 +1,10 @@
 <%- include  ("component/header-compose")-%> 
 <body>
-<header>
-    <h1>ReFrain</h1>
-    <nav class="cl-effect-1">
-        <a href="/" class="nav-bar">Home</a>
-        <a href="/quotes">Quotes</a>
-        <a href="/about">About Us</a>
-        <a href="/home">Login/Sign Up</a>
-    </nav>
-</header>
+<%-include("component/navbar-menu")-%>
+<div id="border">
+</div>
 <section id="input">
-<h1>Compose</h1>
-
+<div class="">
 <form action="/compose" method="post">
     <div class="form-group">
         <label for="Penulis">Penulis</label>
@@ -23,28 +16,30 @@
             <option value="Horror">Horror</option>
             <option value="Romance">Romance</option>
             <option value="Comedy">Comedy</option>
-    </select>
+        </select>
     </div>
-      <div class="form-group">
+    <div class="form-group">
         <label>Title</label>
         <input class="form-control" type="text" name="postTitle">
-      </div>
-      <div class="form-group">
-            <label>Deskripsi</label>
-            <textarea class="form-control" type="text" name="postDeskripsi" id="">
-            </textarea>
-      </div>
-       <div class="form-group">
-        <label>Post</label>
-        <textarea class="form-control" type="text" name="postBody" id="" rows="5" cols="50" >
+    </div>
+    <div class="form-group">
+        <label>Deskripsi</label>
+        <textarea class="form-control" type="text" name="postDeskripsi" id="">
         </textarea>
-       </div>
-       
+    </div>
+    <div class="form-group">
+        <label>Post</label>
+        <textarea class="form-control" type="text" name="postBody" id="" rows="5" cols="50">
+        </textarea>
+    </div>
+
     <a href="/" class="btn btn-secondary">Cancel</a>
     <button class="btn btn-primary" type="submit" name="button">
         Publish
     </button>
 </form>
+</div>
+
 </section>
 
 <%- include  ("component/footer")-%> 
