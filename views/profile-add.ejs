@@ -1,4 +1,25 @@
-<form action="/profile" method="post">
+<%- include ("component/header-akun")-%>
+<%-include("component/navbar-akun")-%>
+<div id="border">
+</div>
+<div class="profile">
+    <div class="photo">
+        <i class="far fa-user fa-7x img"></i>
+    </div>
+
+
+    <div class="class">
+
+    </div>
+    <div class="setting">
+    </div>
+    <a class="btn btn-outline-secondary button" href="" role="button" aria-controls="collapseExample">
+        Add Story
+    </a>
+</div>
+
+<div class="add-story">
+    <form action="/profile" method="post">
         <div class="form-group">
             <label for="Penulis">Penulis</label>
             <input class="form-control " type="text" name="postPenulis">
@@ -22,13 +43,18 @@
         </div>
         <div class="form-group">
             <label>Post</label>
-            <textarea class="form-control" type="text" name="postBody" id="" autocomplete="off">
+            <textarea class="form-control" type="text" name="postBody" id="" autocomplete="off" rows="4" cols="50">
             </textarea>
         </div>
+        <div class="button-story">
+<a href="/" class="btn btn-secondary">Cancel</a>
+
+<button class="btn btn-primary" type="submit" name="button">
+    Publish
+</button>
+        </div>
         
-        <a href="/" class="btn btn-secondary">Cancel</a>
-        
-        <button class="btn btn-primary" type="submit" name="button">
-            Publish
-        </button>
     </form>
+</div>
+
+<%- include ("component/footer") %>

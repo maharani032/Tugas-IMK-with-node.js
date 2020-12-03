@@ -9,17 +9,21 @@
     
     
 <div class="class">
-    <h2>Nama:  <%= currentUser %> </h2>
+    
 </div>
     <div class="setting">
-        <a href="/profile/setting">
-            <i class="fas fa-cog fa-3x"></i>
-        </a>
     </div>
+    <a class="btn btn-outline-secondary button"  href="/profile/add-story" role="button" 
+        aria-controls="collapseExample">
+       Add Story
+    </a>
+    <a class="btn btn-outline-secondary button-edit" href="/profile/edit-story" role="button">
+        Edit Story
+    </a>
 </div>
-
+    
 <div class="add-story">
-
+   
 </div>
 
 <%- include ("component/footer") %>

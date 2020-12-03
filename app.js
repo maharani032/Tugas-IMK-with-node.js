@@ -5,13 +5,9 @@ const mongoose = require( "mongoose" );
 const session = require( 'express-session' );
 const passport = require( "passport" );
 const passportLocalMongoose = require( "passport-local-mongoose" );
-const localStrategy = require( "passport-local" ).Strategy;
-const GoogleStrategy = require( 'passport-google-oauth20' ).Strategy;
-const findOrCreate = require( 'mongoose-findorcreate' );
 const marked = require( 'marked' );
 const createDomPurify = require( 'dompurify' );
 const { JSDOM } = require( 'jsdom' );
-const encrypt = require( "mongoose-encryption" );
 const dompurify = createDomPurify( new JSDOM().window )
 const app = express();
 
@@ -25,7 +21,6 @@ app.use( session( {
     resave: false,
     saveUninitialized: false
 } ) );
-
 app.use( passport.initialize() );
 app.use( passport.session() );
 //database
@@ -36,7 +31,7 @@ mongoose.connect( "mongodb+srv://mahar:tugasimk@cluster0.1sszm.mongodb.net/Refra
         useUnifiedTopology: true,
         useNewUrlParser: true,
     } );
-
+mongoose.set( "useCreateIndex", true );
 const postSchema = new mongoose.Schema( {
     Deskripsi: {
         type: String,
@@ -74,8 +69,7 @@ const userSchema = new mongoose.Schema( {
     },
     password: {
         type: String
-    },
-    post: { type: [ postSchema ] }
+    }
 } );
 postSchema.pre( "validate", function ( next ) 
 {
@@ -86,8 +80,9 @@ postSchema.pre( "validate", function ( next )
     next()
 } );
 
-userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
-userSchema.plugin( passportLocalMongoose, { usernameField: "username" } );
+// userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
+userSchema.plugin( passportLocalMongoose );
+
 // userSchema.plugin( findOrCreate );
 // postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
@@ -98,20 +93,12 @@ passport.serializeUser( function ( user, done )
 {
     done( null, user );
 } );
-
 passport.deserializeUser( function ( user, done )
 {
     done( null, user );
 } );
 //close database
-app.get( "/register", ( req, res ) =>
-{
-    res.render( "register" )
-} );
-app.get( "/login", ( req, res ) =>
-{
-    res.render( "login" )
-} );
+
 app.get( '/', ( req, res ) =>
 {
     res.render( "main" )
@@ -136,16 +123,6 @@ app.get( "/Romance", ( req, res ) =>
         } )
     } )
 } );
-app.get( "/about", ( req, res ) =>
-{
-    Post.find( {}, ( err, posts ) =>
-    {
-        res.render( "about", {
-            posts: posts
-            // genre: "Romance"
-        } )
-    } )
-} );
 app.get( "/Horror", ( req, res ) =>
 {
     Post.find( { genre: "Horror" }, ( err, posts ) =>
@@ -156,13 +133,16 @@ app.get( "/Horror", ( req, res ) =>
         } )
     } )
 } );
-
-app.get( "/logout", function ( req, res )
+app.get( "/about", ( req, res ) =>
 {
-    req.logout();
-    res.redirect( "/" );
+    Post.find( {}, ( err, posts ) =>
+    {
+        res.render( "about", {
+            posts: posts
+            // genre: "Romance"
+        } )
+    } )
 } );
-
 app.get( "/Comedy/:posttitle", ( req, res ) =>
 {
     topic = req.params.posttitle;
@@ -213,38 +193,20 @@ app.get( "/Romance/:posttitle", ( req, res ) =>
             }
         }
     } );
-} )
-
-
-app.post( "/register", function ( req, res )
-{
-
-    User.register( { username: req.body.username }, req.body.password, function ( err, user )
-    {
-        if ( err ) {
-            console.log( err );
-            res.redirect( "/register" );
-        } else {
-            passport.authenticate( "local" )( req, res, function ()
-            {
-                res.redirect( "/Home" );
-            } );
-        }
-    } );
 } );
-app.post( "/profile", ( req, res ) =>
+app.get( "/register", ( req, res ) =>
 {
-    const post = new Post( {
-        title: req.body.postTitle,
-        content: req.body.postBody,
-        genre: req.body.postGenre,
-        write: req.body.postPenulis,
-        Deskripsi: req.body.postDeskripsi
-    } );
-    post.save();
-
-    res.redirect( "/Home" )
-} )
+    res.render( "register" )
+} );
+app.get( "/login", ( req, res ) =>
+{
+    res.render( "login" )
+} );
+app.get( "/logout", function ( req, res )
+{
+    req.logout();
+    res.redirect( "/" );
+} );
 app.get( "/Home", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
@@ -253,30 +215,6 @@ app.get( "/Home", ( req, res ) =>
         res.redirect( "/" )
     }
 } )
-app.post( "/login", function ( req, res )
-{
-    const user = new User( {
-        username: req.body.username,
-        password: req.body.password
-    } );
-
-    req.login( user, function ( err )
-    {
-        if ( err ) { return next( err ); }
-        return res.redirect( "/Home" );
-    } );
-
-} );
-app.get( "/profile", ( req, res ) =>
-{
-    if ( req.isAuthenticated() ) {
-        console.log( req.user );
-        res.render( "profile", { currentUser: req.user.username } )
-    } else {
-        res.redirect( "/" )
-    }
-} )
-
 app.get( "/Home/Romance", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
@@ -305,7 +243,7 @@ app.get( "/Home/Horror", ( req, res ) =>
     } else {
         res.redirect( "/" )
     }
-} )
+} );
 app.get( "/Home/Comedy", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
@@ -320,12 +258,41 @@ app.get( "/Home/Comedy", ( req, res ) =>
     } else {
         res.redirect( "/" )
     }
+} );
+app.get( "/Home/About", ( req, res ) =>
+{
+    Post.find( {}, ( err, posts ) =>
+    {
+        res.render( "about-akun", {
+            posts: posts
+            // genre: "Romance"
+        } )
+    } )
 } )
 app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
 {
     topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
         Post.findOne( { title: topic, genre: "Comedy" }, ( err, post ) =>
+        {
+            if ( !err ) {
+                if ( !post ) {
+                    res.redirect( "/Home" );
+                }
+                else {
+                    res.render( "post-akun", {
+                        post: post
+                    } );
+                }
+            }
+        } );
+    }
+} );
+app.get( "/Home/Romance/:posttitle", ( req, res ) =>
+{
+    topic = req.params.posttitle;
+    if ( req.isAuthenticated() ) {
+        Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
         {
             if ( !err ) {
                 if ( !post ) {
@@ -359,24 +326,69 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
         } );
     }
 } );
-app.get( "/Home/Romance/:posttitle", ( req, res ) =>
+app.get( "/profile", ( req, res ) =>
 {
-    topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
-        Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
-        {
-            if ( !err ) {
-                if ( !post ) {
-                    res.redirect( "/Home" );
-                }
-                else {
-                    res.render( "post-akun", {
-                        post: post
-                    } );
-                }
-            }
-        } );
+        res.render( "profile" )
+    } else {
+        res.redirect( "/" )
     }
+} );
+app.get( "/profile/add-story", ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        res.render( "profile-add" )
+    } else {
+        res.redirect( "/" )
+    }
+} )
+app.post( "/login", ( req, res ) =>
+{
+    const user = new User( {
+        username: req.body.username,
+        password: req.body.password
+    } );
+    req.login( user, function ( err )
+    {
+        if ( err ) {
+            console.log( err );
+        } else {
+            passport.authenticate( "local" )( req, res, function ()
+            {
+                res.redirect( "/Home" );
+            } );
+        }
+    } );
+
+} );
+app.post( "/register", function ( req, res )
+{
+    User.register( { username: req.body.username },
+        req.body.password, function ( err, user )
+    {
+        if ( err ) {
+            console.log( err );
+            res.redirect( "/register" );
+        } else {
+            passport.authenticate( "local" )( req, res, function ()
+            {
+                res.redirect( "/Home" );
+            } );
+        }
+    } );
+} );
+app.post( "/profile", ( req, res ) =>
+{
+    const post = new Post( {
+        title: req.body.postTitle,
+        content: req.body.postBody,
+        genre: req.body.postGenre,
+        write: req.body.postPenulis,
+        Deskripsi: req.body.postDeskripsi
+    } );
+    post.save();
+
+    res.redirect( "/Home" )
 } );
 let port = process.env.PORT;
 if ( port == null || port == "" ) {
