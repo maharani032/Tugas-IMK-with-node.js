@@ -110,6 +110,7 @@ a {
   margin-left: 7%;
   padding-right: 25px;
   padding-left: 50px;
+  float: left;
 }
 .text {
   margin-left: 7%;

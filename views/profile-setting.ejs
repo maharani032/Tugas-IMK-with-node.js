@@ -1,0 +1,29 @@
+<%- include ("component/header-akun")-%>
+<%-include("component/navbar-akun")-%>
+<div id="border">
+</div>
+<div class="profile">
+    <div class="photo">
+        <i class="far fa-user fa-7x img"></i>
+    </div>
+    <form action="/profile/setting" method="post">
+    <div class="form-group">
+        <label for="fName">First Name</label>
+        <input class="form-control " type="text" name="profilefName">
+    </div>
+    <div class="form-group">
+        <label for="lName">Last Name</label>
+        <input class="form-control " type="text" name="profilelName">
+    </div>
+<a href="/" class="btn btn-secondary">Cancel</a>
+<button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  
+ 
+
+    <div class="setting">
+        <a href="/profile/setting">
+            <i class="fas fa-cog fa-3x"></i>
+        </a>
+    </div>
+</div>

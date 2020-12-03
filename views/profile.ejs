@@ -2,44 +2,24 @@
 <%-include("component/navbar-akun")-%>
 <div id="border">
 </div>
-<div class="add-story">
-    <h3>Tambahkan Cerita</h3>
+<div class="profile">
+    <div class="photo">
+        <i class="far fa-user fa-7x img"></i>
     </div>
-    <div class="essay">
-<form action="/profile" method="post">
-    <div class="form-group">
-        <label for="Penulis">Penulis</label>
-        <input class="form-control " type="text" name="postPenulis">
+    
+    
+<div class="class">
+    <h2>Nama:  <%= currentUser %> </h2>
+</div>
+    <div class="setting">
+        <a href="/profile/setting">
+            <i class="fas fa-cog fa-3x"></i>
+        </a>
     </div>
-    <div class="form-group">
-        <label for='genre'>Genre</label>
-        <select class='form-control' id="genre" name='postGenre'>
-            <option value="Horror">Horror</option>
-            <option value="Romance">Romance</option>
-            <option value="Comedy">Comedy</option>
-        </select>
-    </div>
-    <div class="form-group">
-        <label>Title</label>
-        <input class="form-control" type="text" name="postTitle">
-    </div>
-    <div class="form-group">
-        <label>Deskripsi</label>
-        <textarea class="form-control" type="text" name="postDeskripsi" id="">
-        </textarea>
-    </div>
-    <div class="form-group">
-        <label>Post</label>
-        <textarea class="form-control" type="text" name="postBody" id="" rows="5" cols="50">
-        </textarea>
-    </div>
+</div>
 
-    <a href="/" class="btn btn-secondary">Cancel</a>
-    <button class="btn btn-primary" type="submit" name="button">
-        Publish
-    </button>
-</form>
-    </div>
- 
+<div class="add-story">
+
+</div>
 
 <%- include ("component/footer") %>

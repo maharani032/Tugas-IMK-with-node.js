@@ -270,7 +270,8 @@ app.post( "/login", function ( req, res )
 app.get( "/profile", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
-        res.render( "profile" )
+        console.log( req.user );
+        res.render( "profile", { currentUser: req.user.username } )
     } else {
         res.redirect( "/" )
     }
