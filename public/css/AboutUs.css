@@ -106,9 +106,9 @@ a {
   transform: translateX(0px);
 }
 .user {
-  width: 500px;
+  width: 350px;
   margin-left: 7%;
-  padding-right: 25px;
+  padding-right: 50px;
   padding-left: 50px;
   float: left;
 }

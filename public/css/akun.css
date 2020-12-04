@@ -7,7 +7,7 @@
   border-width: 2px;
   border-radius: 5px;
   border-color: black;
-  /* height: 650px; */
+  min-height: 650px;
   padding: 3%;
   margin-top: 3%;
 }

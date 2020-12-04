@@ -12,12 +12,14 @@ const createDomPurify = require( 'dompurify' );
 const { JSDOM } = require( 'jsdom' );
 const dompurify = createDomPurify( new JSDOM().window )
 const app = express();
+const methodOverride = require( 'method-override' )
 
 app.use( express.static( "public" ) );
 app.set( 'view engine', 'ejs' );
 app.use( express.urlencoded( {
     extended: true
 } ) );
+app.use( methodOverride( '_method' ) )
 app.use( session( {
     secret: "Our little secret.",
     resave: false,
@@ -396,11 +398,18 @@ app.get( "/profile", ( req, res ) =>
 } );
 app.get( "/profile/add-story", ( req, res ) =>
 {
-    console.log( req.user._id )
     if ( req.isAuthenticated() ) {
         res.render( "profile-add" )
     } else {
         res.redirect( "/" )
+    }
+} );
+app.get( "/profile/edit-story/:id", async ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        // res.render( "profile" )
+        const post = await Post.findById( req.params.id )
+        res.render( "profile-edit", { post: post } )
     }
 } )
 app.post( "/login", ( req, res ) =>
@@ -453,6 +462,20 @@ app.post( "/profile", ( req, res ) =>
 
     res.redirect( "/Home" )
 } );
+app.delete( "/profile/:id", async ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        await Post.findByIdAndDelete( req.params.id )
+        res.redirect( "/profile" )
+    }
+} )
+
+
+
+
+
+
+
 let port = process.env.PORT;
 if ( port == null || port == "" ) {
     port = 3000;

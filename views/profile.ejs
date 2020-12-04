@@ -16,19 +16,21 @@
         aria-controls="collapseExample">
        Add Story
     </a>
-    <a class="btn btn-outline-secondary button-edit" href="/profile/edit-story" role="button">
-        Edit Story
-    </a>
+
 </div>
     
 <div class="add-story">
-   <% posts.forEach(post => { %>
+    <% posts.forEach(post => { %>
     <div class="box">
-        <h3>Judul: <%= post.title %>  </h3>
+        <h3>Judul: <%= post.title %> </h3>
         <p>Deskripsi: <%= post.Deskripsi %> </p>
         <p>content: <%= post.content %> </p>
+        <a href="/profile/edit-story/<%= post._id %>" class="btn btn-info">Edit</a>
+        <form action="/profile/<%= post.id %>?_method=DELETE" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <!-- </form> -->
     </div>
-   <% }) %>
+    <% }) %>
 </div>
 
 <%- include ("component/footer") %>
