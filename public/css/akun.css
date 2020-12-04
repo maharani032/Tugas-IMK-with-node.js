@@ -67,3 +67,8 @@ p {
   left: 50%;
   transform: translate(-50%, 0);
 }
+.box {
+  background-color: aliceblue;
+  border: 3px solid black;
+  margin: 3% auto;
+}

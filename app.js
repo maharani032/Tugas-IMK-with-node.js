@@ -21,7 +21,7 @@ app.use( express.urlencoded( {
 app.use( session( {
     secret: "Our little secret.",
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 } ) );
 app.use( passport.initialize() );
 app.use( passport.session() );
@@ -63,12 +63,22 @@ const postSchema = new mongoose.Schema( {
             type: Date,
             default: Date.now
         }
+    },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 } );
 const userSchema = new mongoose.Schema( {
     email: String,
     password: String,
-    googleId: String
+    googleId: String,
+    postId: [ {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post',
+
+    } ]
 } );
 postSchema.pre( "validate", function ( next ) 
 {
@@ -242,6 +252,7 @@ app.get( "/logout", function ( req, res )
 } );
 app.get( "/Home", ( req, res ) =>
 {
+
     if ( req.isAuthenticated() ) {
         res.render( "menu-akun" )
     } else {
@@ -369,14 +380,22 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
 } );
 app.get( "/profile", ( req, res ) =>
 {
+    let id = req.user._id
     if ( req.isAuthenticated() ) {
-        res.render( "profile" )
+        // res.render( "profile" )
+        Post.find( { userId: id }, ( err, posts ) =>
+        {
+            res.render( "profile", {
+                posts: posts
+            } )
+        } )
     } else {
         res.redirect( "/" )
     }
 } );
 app.get( "/profile/add-story", ( req, res ) =>
 {
+    console.log( req.user._id )
     if ( req.isAuthenticated() ) {
         res.render( "profile-add" )
     } else {
@@ -420,12 +439,14 @@ app.post( "/register", function ( req, res )
 } );
 app.post( "/profile", ( req, res ) =>
 {
+    let id = req.user._id
     const post = new Post( {
         title: req.body.postTitle,
         content: req.body.postBody,
         genre: req.body.postGenre,
         write: req.body.postPenulis,
-        Deskripsi: req.body.postDeskripsi
+        Deskripsi: req.body.postDeskripsi,
+        userId: id
     } );
     post.save();
 

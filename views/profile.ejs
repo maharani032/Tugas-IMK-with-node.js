@@ -23,7 +23,13 @@
 </div>
     
 <div class="add-story">
-   
+   <% posts.forEach(post => { %>
+    <div class="box">
+        <h3>Judul: <%= post.title %>  </h3>
+        <p>Deskripsi: <%= post.Deskripsi %> </p>
+        <p>content: <%= post.content %> </p>
+    </div>
+   <% }) %>
 </div>
 
 <%- include ("component/footer") %>
