@@ -132,6 +132,10 @@ app.get( '/auth/google/refrain',
         // Successful authentication, redirect home.
         res.redirect( '/Home' );
     } );
+app.get( "/quotes", ( req, res ) =>
+{
+    res.render( "quotes" )
+} );
 app.get( "/Comedy", ( req, res ) =>
 {
     Post.find( { genre: "Comedy" }, ( err, posts ) =>
@@ -242,6 +246,14 @@ app.get( "/Home", ( req, res ) =>
         res.render( "menu-akun" )
     } else {
         res.redirect( "/" )
+    }
+} )
+app.get( "/Home/Qoutes", ( req, res ) =>
+{
+    if ( req.isAuthenticated() ) {
+        res.render( "quotes-akun" )
+    } else {
+        res.redirect( "/quotes" )
     }
 } )
 app.get( "/Home/Romance", ( req, res ) =>
