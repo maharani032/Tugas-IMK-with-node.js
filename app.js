@@ -380,7 +380,8 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
 } );
 app.get( "/profile", ( req, res ) =>
 {
-    let id = req.user._id
+    let id = req.user._id;
+
     if ( req.isAuthenticated() ) {
         // res.render( "profile" )
         Post.find( { userId: id }, ( err, posts ) =>
