@@ -504,7 +504,7 @@ function saveArticleAndRedirect ( path )
 }
 app.put( "/profile/edit/:id", async ( req, res, next ) =>
 {
-    console.log( "hi" )
+
     req.post = await Post.findById( req.params.id )
     next()
 }, saveArticleAndRedirect( 'profile' ) )
