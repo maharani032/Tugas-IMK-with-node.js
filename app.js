@@ -12,7 +12,8 @@ const createDomPurify = require( 'dompurify' );
 const { JSDOM } = require( 'jsdom' );
 const dompurify = createDomPurify( new JSDOM().window )
 const app = express();
-const methodOverride = require( 'method-override' )
+const methodOverride = require( 'method-override' );
+const e = require( 'express' );
 
 app.use( express.static( "public" ) );
 app.set( 'view engine', 'ejs' );
@@ -258,7 +259,7 @@ app.get( "/Home", ( req, res ) =>
     if ( req.isAuthenticated() ) {
         res.render( "menu-akun" )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } )
 app.get( "/Home/Qoutes", ( req, res ) =>
@@ -266,7 +267,7 @@ app.get( "/Home/Qoutes", ( req, res ) =>
     if ( req.isAuthenticated() ) {
         res.render( "quotes-akun" )
     } else {
-        res.redirect( "/quotes" )
+        res.redirect( "/login" )
     }
 } )
 app.get( "/Home/Romance", ( req, res ) =>
@@ -281,7 +282,7 @@ app.get( "/Home/Romance", ( req, res ) =>
 
         } )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } );
 app.get( "/Home/Horror", ( req, res ) =>
@@ -295,7 +296,7 @@ app.get( "/Home/Horror", ( req, res ) =>
             } )
         } )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } );
 app.get( "/Home/Comedy", ( req, res ) =>
@@ -310,7 +311,7 @@ app.get( "/Home/Comedy", ( req, res ) =>
 
         } )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } );
 app.get( "/Home/About", ( req, res ) =>
@@ -340,6 +341,8 @@ app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
                 }
             }
         } );
+    } else {
+        res.redirect( "/login" )
     }
 } );
 app.get( "/Home/Romance/:posttitle", ( req, res ) =>
@@ -359,6 +362,8 @@ app.get( "/Home/Romance/:posttitle", ( req, res ) =>
                 }
             }
         } );
+    } else {
+        res.redirect( "/login" )
     }
 } );
 app.get( "/Home/Horror/:posttitle", ( req, res ) =>
@@ -378,6 +383,8 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
                 }
             }
         } );
+    } else {
+        res.redirect( "/login" )
     }
 } );
 app.get( "/profile", ( req, res ) =>
@@ -393,7 +400,7 @@ app.get( "/profile", ( req, res ) =>
             } )
         } )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } );
 app.get( "/profile/add-story", ( req, res ) =>
@@ -401,15 +408,20 @@ app.get( "/profile/add-story", ( req, res ) =>
     if ( req.isAuthenticated() ) {
         res.render( "profile-add" )
     } else {
-        res.redirect( "/" )
+        res.redirect( "/login" )
     }
 } );
 app.get( "/profile/edit-story/:id", async ( req, res ) =>
 {
+
     if ( req.isAuthenticated() ) {
         // res.render( "profile" )
+
         const post = await Post.findById( req.params.id )
         res.render( "profile-edit", { post: post } )
+    }
+    else {
+        res.redirect( "/login" )
     }
 } )
 app.post( "/login", ( req, res ) =>
@@ -422,6 +434,7 @@ app.post( "/login", ( req, res ) =>
     {
         if ( err ) {
             console.log( err );
+
         } else {
             passport.authenticate( "local" )( req, res, function ()
             {
@@ -468,9 +481,33 @@ app.delete( "/profile/:id", async ( req, res ) =>
         await Post.findByIdAndDelete( req.params.id )
         res.redirect( "/profile" )
     }
+
 } )
-
-
+function saveArticleAndRedirect ( path )
+{
+    return async ( req, res ) =>
+    {
+        let post = req.post
+        post.title = req.body.postTitle
+        post.write = req.body.postPenulis
+        post.Deskripsi = req.body.postDeskripsi
+        post.content = req.body.postBody
+        post.useId = req.user._id
+        post.genre = req.body.postGenre
+        try {
+            post = await post.save()
+            res.redirect( "/profile" )
+        } catch ( e ) {
+            res.render( `/profile/edit-story/${ path }`, { post: post } )
+        }
+    }
+}
+app.put( "/profile/edit/:id", async ( req, res, next ) =>
+{
+    console.log( "hi" )
+    req.post = await Post.findById( req.params.id )
+    next()
+}, saveArticleAndRedirect( 'profile' ) )
 
 
 
