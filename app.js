@@ -100,7 +100,7 @@ postSchema.pre( "validate", function ( next )
 // userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
 userSchema.plugin( passportLocalMongoose );
 userSchema.plugin( findOrCreate );
-// postSchema.index( { 'content': 'text' } );
+postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
 const User = new mongoose.model( "User", userSchema );
 passport.use( User.createStrategy() );
@@ -320,13 +320,17 @@ app.get( "/Home/Comedy", ( req, res ) =>
 } );
 app.get( "/Home/About", ( req, res ) =>
 {
-    Post.find( {}, ( err, posts ) =>
-    {
-        res.render( "about-akun", {
-            posts: posts
-            // genre: "Romance"
+    if ( req.isAuthenticated() ) {
+        Post.find( {}, ( err, posts ) =>
+        {
+            res.render( "about-akun", {
+                posts: posts
+                // genre: "Romance"
+            } )
         } )
-    } )
+    } else {
+        res.redirect( "/login" )
+    }
 } )
 app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
 {
@@ -416,8 +420,13 @@ app.get( "/profil", ( req, res ) =>
 } );
 app.get( "/profil/add-story", ( req, res ) =>
 {
+    let namef = req.user.fname
+    let namel = req.user.lname
     if ( req.isAuthenticated() ) {
-        res.render( "profile-add" )
+        res.render( "profile-add", {
+            namef: namef,
+            namel: namel
+        } )
     } else {
         res.redirect( "/login" )
     }
@@ -425,11 +434,17 @@ app.get( "/profil/add-story", ( req, res ) =>
 app.get( "/profil/edit-story/:id", async ( req, res ) =>
 {
 
+    let namef = req.user.fname
+    let namel = req.user.lname
     if ( req.isAuthenticated() ) {
         // res.render( "profile" )
 
         const post = await Post.findById( req.params.id )
-        res.render( "profile-edit", { post: post } )
+        res.render( "profile-edit", {
+            post: post,
+            namef: namef,
+            namel: namel
+        } )
     }
     else {
         res.redirect( "/login" )
