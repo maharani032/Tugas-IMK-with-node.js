@@ -13,13 +13,13 @@
     </div>
     <div class="setting">
     </div>
-    <a class="btn btn-outline-secondary button" href="/profile/add-story" role="button" aria-controls="collapseExample">
+    <a class="btn btn-outline-secondary button" href="/profil/add-story" role="button" aria-controls="collapseExample">
         Add Story
     </a>
  
 </div>
 <div class="add-story">
-    <form action="/profile/edit/<%= post._id %>?_method=PUT" method="POST">
+    <form action="/profil/edit/<%= post._id %>?_method=PUT" method="POST">
             <div class="form-group">
                 <label for="Penulis">Penulis</label>
                 <input class="form-control " type="text" name="postPenulis"value="<%= post.write %>" >
@@ -49,7 +49,7 @@
                 </textarea>
             </div>
             
-            <a href="/" class="btn btn-secondary">Cancel</a>
+            <a href="/profil" class="btn btn-secondary">Cancel</a>
             
             <button class="btn btn-primary" type="submit" name="button">
                 Publish

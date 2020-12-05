@@ -6,13 +6,17 @@
     <div class="photo">
         <i class="far fa-user fa-7x img"></i>
     </div>
+    <div class="name">
+        <h3>Nama:</h3>
+         <p><%= namef %> <%= namel %>  </p>   
+    </div>
     
     
 <div class="class">
     
 </div>
 
-    <a class="btn btn-outline-secondary button"  href="/profile/add-story" role="button" 
+    <a class="btn btn-outline-secondary button"  href="/profil/add-story" role="button" 
         aria-controls="collapseExample">
        Add Story
     </a>
@@ -25,8 +29,8 @@
         <h3>Judul: <%= post.title %> </h3>
         <p>Deskripsi: <%= post.Deskripsi %> </p>
         <p>content: <%= post.content.substring(0,100) %> </p>
-        <a href="/profile/edit-story/<%= post._id %>" class="btn btn-info">Edit</a>
-        <form action="/profile/<%= post.id %>?_method=DELETE" method="POST" class="d-inline">
+        <a href="/profil/edit-story/<%= post._id %>" class="btn btn-info">Edit</a>
+        <form action="/profil/<%= post.id %>?_method=DELETE" method="POST" class="d-inline">
             <button type="submit" class="btn btn-danger">Delete</button>
             <!-- </form> -->
     </div>

@@ -14,7 +14,7 @@ body {
   float: left;
   text-align: center;
   position: relative;
-  margin: 0 0 0 7%;
+  margin: 7% 0 0 7%;
 }
 
 .circle p {
@@ -35,4 +35,25 @@ body {
 
 .circle a img:hover {
   transform: scale(1.15);
+}
+.container {
+  padding: 0;
+  margin: 0;
+}
+.background {
+  /* position: absolute;
+  top: 12%$; */
+  background-image: url("/Assets/web-banner2.png");
+  background-size: cover;
+  width: 100%;
+  height: 550px;
+}
+.nulis {
+  position: absolute;
+  top: auto;
+  left: 50%;
+  display: block;
+  /* width: 100%; */
+  margin-bottom: 10%;
+  transform: translate(-50%, 0);
 }

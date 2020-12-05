@@ -12,7 +12,15 @@
             <div class="card">
                 <div class="card-body">
                     <form action="/register" method="POST">
-                        <div class="form-group">
+                        <div class="form-group name">
+                            <label for="fname "> Nama depan</label>
+                            <input type="text" class="form-control" name="fname" autocomplete="off">
+                        </div>
+                        <div class="form-group name">
+                            <label for="fname"> Nama belakang</label>
+                            <input type="text" class="form-control" name="lname" autocomplete="off">
+                        </div>
+                        <div class="form-group email">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" name="username" autocomplete="off">
                         </div>

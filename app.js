@@ -74,9 +74,14 @@ const postSchema = new mongoose.Schema( {
     }
 } );
 const userSchema = new mongoose.Schema( {
+
+    fname: String,
+    lname: String,
+
     email: String,
     password: String,
     googleId: String,
+
     postId: [ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
@@ -123,7 +128,7 @@ passport.use( new GoogleStrategy( {
     function ( accessToken, refreshToken, profile, cb )
     {
         console.log( profile );
-        User.findOrCreate( { googleId: profile.id }, function ( err, user )
+        User.findOrCreate( { googleId: profile.id, }, { fname: profile.displayName }, function ( err, user )
         {
             return cb( err, user );
         } );
@@ -255,9 +260,15 @@ app.get( "/logout", function ( req, res )
 } );
 app.get( "/Home", ( req, res ) =>
 {
-
+    // console.log( req.user._id )
+    let namef = req.user.fname
+    let namel = req.user.lname
     if ( req.isAuthenticated() ) {
-        res.render( "menu-akun" )
+
+        res.render( "menu-akun", {
+            namef: namef,
+            namel: namel
+        } )
     } else {
         res.redirect( "/login" )
     }
@@ -387,15 +398,22 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
         res.redirect( "/login" )
     }
 } );
-app.get( "/profile", ( req, res ) =>
+app.get( "/profil", ( req, res ) =>
 {
+    // console.log( req.user._id )
     let id = req.user._id;
-
+    // if ( id === "underfined" ) {
+    //     id = req.googleId
+    // }
+    let namef = req.user.fname
+    let namel = req.user.lname
     if ( req.isAuthenticated() ) {
         // res.render( "profile" )
         Post.find( { userId: id }, ( err, posts ) =>
         {
             res.render( "profile", {
+                namef: namef,
+                namel: namel,
                 posts: posts
             } )
         } )
@@ -403,7 +421,7 @@ app.get( "/profile", ( req, res ) =>
         res.redirect( "/login" )
     }
 } );
-app.get( "/profile/add-story", ( req, res ) =>
+app.get( "/profil/add-story", ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
         res.render( "profile-add" )
@@ -411,7 +429,7 @@ app.get( "/profile/add-story", ( req, res ) =>
         res.redirect( "/login" )
     }
 } );
-app.get( "/profile/edit-story/:id", async ( req, res ) =>
+app.get( "/profil/edit-story/:id", async ( req, res ) =>
 {
 
     if ( req.isAuthenticated() ) {
@@ -446,7 +464,7 @@ app.post( "/login", ( req, res ) =>
 } );
 app.post( "/register", function ( req, res )
 {
-    User.register( { username: req.body.username },
+    User.register( { username: req.body.username, fname: req.body.fname, lname: req.body.lname },
         req.body.password, function ( err, user )
     {
         if ( err ) {
@@ -460,7 +478,7 @@ app.post( "/register", function ( req, res )
         }
     } );
 } );
-app.post( "/profile", ( req, res ) =>
+app.post( "/profil", ( req, res ) =>
 {
     let id = req.user._id
     const post = new Post( {
@@ -475,11 +493,11 @@ app.post( "/profile", ( req, res ) =>
 
     res.redirect( "/Home" )
 } );
-app.delete( "/profile/:id", async ( req, res ) =>
+app.delete( "/profil/:id", async ( req, res ) =>
 {
     if ( req.isAuthenticated() ) {
         await Post.findByIdAndDelete( req.params.id )
-        res.redirect( "/profile" )
+        res.redirect( "/profil" )
     }
 
 } )
@@ -496,18 +514,18 @@ function saveArticleAndRedirect ( path )
         post.genre = req.body.postGenre
         try {
             post = await post.save()
-            res.redirect( "/profile" )
+            res.redirect( "/profil" )
         } catch ( e ) {
-            res.render( `/profile/edit-story/${ path }`, { post: post } )
+            res.render( `/profil/edit-story/${ path }`, { post: post } )
         }
     }
 }
-app.put( "/profile/edit/:id", async ( req, res, next ) =>
+app.put( "/profil/edit/:id", async ( req, res, next ) =>
 {
 
     req.post = await Post.findById( req.params.id )
     next()
-}, saveArticleAndRedirect( 'profile' ) )
+}, saveArticleAndRedirect( 'profil' ) )
 
 
 
