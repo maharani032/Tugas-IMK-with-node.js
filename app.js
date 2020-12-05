@@ -13,7 +13,7 @@ const { JSDOM } = require( 'jsdom' );
 const dompurify = createDomPurify( new JSDOM().window )
 const app = express();
 const methodOverride = require( 'method-override' );
-const e = require( 'express' );
+
 
 app.use( express.static( "public" ) );
 app.set( 'view engine', 'ejs' );
@@ -523,7 +523,7 @@ function saveArticleAndRedirect ( path )
         try {
             post = await post.save()
             res.redirect( "/profil" )
-        } catch ( e ) {
+        } catch ( express ) {
             res.render( `/profil/edit-story/${ path }`, { post: post } )
         }
     }
