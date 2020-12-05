@@ -1,22 +1,16 @@
 {
-  "name": "NEWSS",
-  "version": "1.0.0",
+  "name": "new",
   "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/maharani032/Tugas-IMK-with-node.js.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/maharani032/Tugas-IMK-with-node.js/issues"
+  "engines": {
+    "node": "12.19.0"
   },
-  "homepage": "https://github.com/maharani032/Tugas-IMK-with-node.js#readme",
   "dependencies": {
     "dompurify": "^2.2.2",
     "dotenv": "^8.2.0",
