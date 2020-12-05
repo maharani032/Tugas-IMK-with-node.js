@@ -6,7 +6,7 @@
     } );
     setTimeout( function ()
     {
-        window.location.href = 'Comedy'
+        window.location.href = ''
     }, 1500 )
 } )
 
@@ -18,7 +18,7 @@ $( '.circle a.horror' ).on( 'click', function ()
     } );
     setTimeout( function ()
     {
-        window.location.href = 'Horror'
+        window.location.href = ''
     }, 1500 )
 } )
 
@@ -30,7 +30,7 @@ $( '.circle a.romance' ).on( 'click', function ()
     } );
     setTimeout( function ()
     {
-        window.location.href = 'Romance'
+        window.location.href = ''
     }, 1500 )
 } )
 

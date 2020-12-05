@@ -99,19 +99,15 @@ postSchema.pre( "validate", function ( next )
 
 // userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
 userSchema.plugin( passportLocalMongoose );
-
 userSchema.plugin( findOrCreate );
 // postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
 const User = new mongoose.model( "User", userSchema );
-
 passport.use( User.createStrategy() );
-
 passport.serializeUser( function ( user, done )
 {
     done( null, user.id );
 } );
-
 passport.deserializeUser( function ( id, done )
 {
     User.findById( id, function ( err, user )
@@ -127,7 +123,6 @@ passport.use( new GoogleStrategy( {
 },
     function ( accessToken, refreshToken, profile, cb )
     {
-        console.log( profile );
         User.findOrCreate( { googleId: profile.id, }, { fname: profile.displayName }, function ( err, user )
         {
             return cb( err, user );
@@ -135,7 +130,6 @@ passport.use( new GoogleStrategy( {
     }
 ) );
 //close database
-
 app.get( '/', ( req, res ) =>
 {
     res.render( "main" )
@@ -264,7 +258,6 @@ app.get( "/Home", ( req, res ) =>
     let namef = req.user.fname
     let namel = req.user.lname
     if ( req.isAuthenticated() ) {
-
         res.render( "menu-akun", {
             namef: namef,
             namel: namel
@@ -526,10 +519,6 @@ app.put( "/profil/edit/:id", async ( req, res, next ) =>
     req.post = await Post.findById( req.params.id )
     next()
 }, saveArticleAndRedirect( 'profil' ) )
-
-
-
-
 
 let port = process.env.PORT;
 if ( port == null || port == "" ) {
