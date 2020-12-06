@@ -13,6 +13,7 @@ const createDomPurify = require( 'dompurify' );
 const { JSDOM } = require( 'jsdom' );
 const dompurify = createDomPurify( new JSDOM().window )
 const app = express();
+const flash = require( 'connect-flash' );
 const methodOverride = require( 'method-override' );
 
 
@@ -27,6 +28,7 @@ app.use( session( {
     resave: false,
     saveUninitialized: true
 } ) );
+app.use( flash() );
 app.use( passport.initialize() );
 app.use( passport.session() );
 //database
@@ -97,6 +99,7 @@ postSchema.pre( "validate", function ( next )
 
     next()
 } );
+
 
 // userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
 userSchema.plugin( passportLocalMongoose );
@@ -451,26 +454,31 @@ app.get( "/profil/edit-story/:id", async ( req, res ) =>
         res.redirect( "/login" )
     }
 } )
-app.post( "/login", ( req, res ) =>
-{
-    const user = new User( {
-        username: req.body.username,
-        password: req.body.password
-    } );
-    req.login( user, function ( err )
-    {
-        if ( err ) {
-            console.log( err );
+// app.post( "/login", ( req, res ) =>
+// {
+//     const user = new User( {
+//         username: req.body.username,
+//         password: req.body.password
+//     } );
+//     req.login( user, function ( err )
+//     {
+//         if ( err ) {
+//             console.log( err );
 
-        } else {
-            passport.authenticate( "local" )( req, res, function ()
-            {
-                res.redirect( "/Home" );
-            } );
-        }
-    } );
+//         } else {
+//             passport.authenticate( "local" )( req, res, function ()
+//             {
+//                 res.redirect( "/Home" );
+//             } );
+//         }
+//     } );
 
-} );
+// } );
+app.post( "/login", passport.authenticate( "local", {
+    successRedirect: "/Home",
+    failureRedirect: "/login",
+    failureFlash: true,
+} ) );
 app.post( "/register", function ( req, res )
 {
     User.register( { username: req.body.username, fname: req.body.fname, lname: req.body.lname },
