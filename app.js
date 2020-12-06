@@ -101,7 +101,7 @@ postSchema.pre( "validate", function ( next )
 } );
 
 
-userSchema.plugin( passportLocalMongoose );
+userSchema.plugin( passportLocalMongoose, { usernameLowerCase: true } );
 userSchema.plugin( findOrCreate );
 postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
