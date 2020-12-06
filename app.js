@@ -259,9 +259,10 @@ app.get( "/logout", function ( req, res )
 app.get( "/Home", ( req, res ) =>
 {
     // console.log( req.user._id )
-    let namef = req.user.fname
-    let namel = req.user.lname
+
     if ( req.isAuthenticated() ) {
+        let namef = req.user.fname
+        let namel = req.user.lname
         res.render( "menu-akun", {
             namef: namef,
             namel: namel
