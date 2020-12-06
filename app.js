@@ -402,14 +402,11 @@ app.get( "/Home/Horror/:posttitle", ( req, res ) =>
 } );
 app.get( "/profil", ( req, res ) =>
 {
-    // console.log( req.user._id )
-    let id = req.user._id;
-    // if ( id === "underfined" ) {
-    //     id = req.googleId
-    // }
-    let namef = req.user.fname
-    let namel = req.user.lname
+
     if ( req.isAuthenticated() ) {
+        let namef = req.user.fname
+        let namel = req.user.lname
+        let id = req.user._id;
         // res.render( "profile" )
         Post.find( { userId: id }, ( err, posts ) =>
         {
@@ -425,9 +422,10 @@ app.get( "/profil", ( req, res ) =>
 } );
 app.get( "/profil/add-story", ( req, res ) =>
 {
-    let namef = req.user.fname
-    let namel = req.user.lname
+
     if ( req.isAuthenticated() ) {
+        let namef = req.user.fname
+        let namel = req.user.lname
         res.render( "profile-add", {
             namef: namef,
             namel: namel
@@ -439,11 +437,10 @@ app.get( "/profil/add-story", ( req, res ) =>
 app.get( "/profil/edit-story/:id", async ( req, res ) =>
 {
 
-    let namef = req.user.fname
-    let namel = req.user.lname
     if ( req.isAuthenticated() ) {
-        // res.render( "profile" )
 
+        let namef = req.user.fname
+        let namel = req.user.lname
         const post = await Post.findById( req.params.id )
         res.render( "profile-edit", {
             post: post,
