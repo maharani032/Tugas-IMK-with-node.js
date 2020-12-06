@@ -101,7 +101,6 @@ postSchema.pre( "validate", function ( next )
 } );
 
 
-// userSchema.plugin( encrypt, { secret: process.env.SECRET, encryptedFields: [ "password" ] } );
 userSchema.plugin( passportLocalMongoose );
 userSchema.plugin( findOrCreate );
 postSchema.index( { 'content': 'text' } );
@@ -258,8 +257,6 @@ app.get( "/logout", function ( req, res )
 } );
 app.get( "/Home", ( req, res ) =>
 {
-    // console.log( req.user._id )
-
     if ( req.isAuthenticated() ) {
         let namef = req.user.fname
         let namel = req.user.lname
@@ -407,7 +404,7 @@ app.get( "/profil", ( req, res ) =>
         let namef = req.user.fname
         let namel = req.user.lname
         let id = req.user._id;
-        // res.render( "profile" )
+
         Post.find( { userId: id }, ( err, posts ) =>
         {
             res.render( "profile", {
@@ -452,26 +449,7 @@ app.get( "/profil/edit-story/:id", async ( req, res ) =>
         res.redirect( "/login" )
     }
 } )
-// app.post( "/login", ( req, res ) =>
-// {
-//     const user = new User( {
-//         username: req.body.username,
-//         password: req.body.password
-//     } );
-//     req.login( user, function ( err )
-//     {
-//         if ( err ) {
-//             console.log( err );
 
-//         } else {
-//             passport.authenticate( "local" )( req, res, function ()
-//             {
-//                 res.redirect( "/Home" );
-//             } );
-//         }
-//     } );
-
-// } );
 app.post( "/login", passport.authenticate( "local", {
     successRedirect: "/Home",
     failureRedirect: "/login",
