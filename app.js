@@ -74,7 +74,10 @@ const postSchema = new mongoose.Schema( {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true
-    }
+    }, comment: [ {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Comment',
+    } ]
 } );
 const userSchema = new mongoose.Schema( {
 
@@ -91,6 +94,18 @@ const userSchema = new mongoose.Schema( {
 
     } ]
 } );
+const commentSchema = new mongoose.Schema( {
+    userId: [ {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    } ],
+    komen: String,
+    postId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Post'
+    }
+} )
 postSchema.pre( "validate", function ( next ) 
 {
     if ( this.content ) {
@@ -103,9 +118,9 @@ postSchema.pre( "validate", function ( next )
 
 userSchema.plugin( passportLocalMongoose, { usernameLowerCase: true } );
 userSchema.plugin( findOrCreate );
-postSchema.index( { 'content': 'text' } );
 const Post = new mongoose.model( "Post", postSchema );
 const User = new mongoose.model( "User", userSchema );
+const Comment = new mongoose.model( "Comment", commentSchema );
 passport.use( User.createStrategy() );
 passport.serializeUser( function ( user, done )
 {
@@ -208,6 +223,7 @@ app.get( "/Comedy/:posttitle", ( req, res ) =>
         }
     } );
 } );
+
 app.get( "/Horror/:posttitle", ( req, res ) =>
 {
     topic = req.params.posttitle;
@@ -235,6 +251,7 @@ app.get( "/Romance/:posttitle", ( req, res ) =>
                 res.redirect( "/" );
             }
             else {
+
                 res.render( "post", {
                     post: post
                 } );
@@ -357,6 +374,9 @@ app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
 } );
 app.get( "/Home/Romance/:posttitle", ( req, res ) =>
 {
+    let namef = req.user.fname
+    let namel = req.user.lname
+    let id = req.user._id;
     topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
         Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
@@ -367,7 +387,9 @@ app.get( "/Home/Romance/:posttitle", ( req, res ) =>
                 }
                 else {
                     res.render( "post-akun", {
-                        post: post
+                        post: post,
+                        namef: namef,
+                        namel: namel
                     } );
                 }
             }
@@ -485,6 +507,24 @@ app.post( "/profil", ( req, res ) =>
     post.save();
 
     res.redirect( "/Home" )
+} );
+app.post( "/comment/:id", ( req, res, post ) =>
+{
+
+    if ( req.isAuthenticated() ) {
+
+        let id = req.user._id;
+        let post = req.params.id;
+        const comment = new Comment( {
+            userId: id,
+            postId: post,
+            komen: req.body.Komentar
+        } );
+        comment.save();
+        res.redirect( "/Home" )
+    } else {
+        res.redirect( "/login" )
+    }
 } );
 app.delete( "/profil/:id", async ( req, res ) =>
 {
