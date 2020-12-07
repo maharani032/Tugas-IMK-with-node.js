@@ -39,7 +39,7 @@ mongoose.connect( "mongodb+srv://mahar:tugasimk@cluster0.1sszm.mongodb.net/Refra
         useUnifiedTopology: true,
         useNewUrlParser: true,
     } );
-mongoose.set( "useCreateIndex", true );
+// mongoose.set( "useCreateIndex", true );
 const postSchema = new mongoose.Schema( {
     Deskripsi: {
         type: String,
