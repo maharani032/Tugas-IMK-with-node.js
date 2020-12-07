@@ -31,7 +31,8 @@
 
 </section>
 <div class="komentar">
-    <form action="/comment/<%= post._id %> " method="POST" autocomplete="off">
+    /Home/:genre/:title/comment/:id
+    <form action="/Home/<%=post.genre%>/<%=post.title%>/comment/<%= post._id %> " method="POST" autocomplete="off">
         <h2>Komentarlah di bawah sini : </h2>
         <input type="text" name="Nama" placeholder="Nama" value="<%= namef %> <%=namel %>" />
      

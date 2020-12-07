@@ -101,10 +101,10 @@ const commentSchema = new mongoose.Schema( {
         required: true
     } ],
     komen: String,
-    postId: {
+    postId: [ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
-    }
+    } ]
 } )
 postSchema.pre( "validate", function ( next ) 
 {
@@ -508,11 +508,11 @@ app.post( "/profil", ( req, res ) =>
 
     res.redirect( "/Home" )
 } );
-app.post( "/comment/:id", ( req, res, post ) =>
+app.post( "/Home/:genre/:title/comment/:id", ( req, res, post ) =>
 {
-
     if ( req.isAuthenticated() ) {
-
+        let genre = req.params.genre;
+        let title = req.params.title;
         let id = req.user._id;
         let post = req.params.id;
         const comment = new Comment( {
@@ -521,7 +521,8 @@ app.post( "/comment/:id", ( req, res, post ) =>
             komen: req.body.Komentar
         } );
         comment.save();
-        res.redirect( "/Home" )
+
+        res.redirect( "/Home/" + genre + "/" + title )
     } else {
         res.redirect( "/login" )
     }
