@@ -53,7 +53,8 @@ body {
   top: auto;
   left: 50%;
   display: block;
-  /* width: 100%; */
+  width: 100%;
+  text-align: center;
   margin-bottom: 10%;
   transform: translate(-50%, 0);
 }
