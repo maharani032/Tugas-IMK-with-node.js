@@ -22,11 +22,21 @@
             <img src="https://www.flaticon.com/svg/static/icons/svg/1076/1076745.svg" alt="" style="width: 3%;">
         </a>
     </div>
-        <div id="comment-list">
-            <h1>Daftar Komentar : </h1>
+    <div class="comment-list">
+        <h1>Daftar Komentar : </h1>
+        <div class="list">
+            <% comments.forEach(comment => { %>
+            <div class="komentator">
+                <p><%=comment.fname%> <%=comment.lname %> </p>
+                <p><%= comment.komen %> </p>
+            </div>
+            <% }) %>
         </div>
+    </div>
         
-    
+        <div class="login">
+            <a href="/login" class="btn btn-outline-secondary btn-lg"" role="button">Login for comment</a>
+        </div>
         </section>
         <script src="/logic/Comment.js"></script>
         <%- include  ("component/footer")-%> 

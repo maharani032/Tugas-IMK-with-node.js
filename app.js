@@ -104,7 +104,9 @@ const commentSchema = new mongoose.Schema( {
     postId: [ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post'
-    } ]
+    } ],
+    fname: String,
+    lname: String
 } )
 postSchema.pre( "validate", function ( next ) 
 {
@@ -206,7 +208,7 @@ app.get( "/about", ( req, res ) =>
         } )
     } )
 } );
-app.get( "/Comedy/:posttitle", ( req, res ) =>
+app.get( "/Comedy/:posttitle/:id", ( req, res ) =>
 {
     topic = req.params.posttitle;
     Post.findOne( { title: topic, genre: "Comedy" }, ( err, post ) =>
@@ -216,15 +218,20 @@ app.get( "/Comedy/:posttitle", ( req, res ) =>
                 res.redirect( "/" );
             }
             else {
-                res.render( "post", {
-                    post: post
+                Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                {
+
+                    res.render( "post", {
+                        post: post,
+                        comments: comments
+                    } )
                 } );
             }
         }
     } );
 } );
 
-app.get( "/Horror/:posttitle", ( req, res ) =>
+app.get( "/Horror/:posttitle/:id", ( req, res ) =>
 {
     topic = req.params.posttitle;
     Post.findOne( { title: topic, genre: "Horror" }, ( err, post ) =>
@@ -234,14 +241,19 @@ app.get( "/Horror/:posttitle", ( req, res ) =>
                 res.redirect( "/" );
             }
             else {
-                res.render( "post", {
-                    post: post
+                Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                {
+
+                    res.render( "post", {
+                        post: post,
+                        comments: comments
+                    } )
                 } );
             }
         }
     } );
 } );
-app.get( "/Romance/:posttitle", ( req, res ) =>
+app.get( "/Romance/:posttitle/:id", ( req, res ) =>
 {
     topic = req.params.posttitle;
     Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
@@ -251,9 +263,12 @@ app.get( "/Romance/:posttitle", ( req, res ) =>
                 res.redirect( "/" );
             }
             else {
-
-                res.render( "post", {
-                    post: post
+                Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                {
+                    res.render( "post", {
+                        post: post,
+                        comments: comments
+                    } )
                 } );
             }
         }
@@ -351,19 +366,25 @@ app.get( "/Home/About", ( req, res ) =>
         res.redirect( "/login" )
     }
 } )
-app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
+app.get( "/Home/Comedy/:posttitle/:id", ( req, res ) =>
 {
     topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
-        Post.findOne( { title: topic, genre: "Comedy" }, ( err, post ) =>
+        let id = req.user._id;
+        Post.findOne( { title: topic, genre: "Comedy", _id: req.params.id }, ( err, post ) =>
         {
             if ( !err ) {
                 if ( !post ) {
                     res.redirect( "/Home" );
                 }
                 else {
-                    res.render( "post-akun", {
-                        post: post
+                    Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                    {
+
+                        res.render( "post-akun", {
+                            post: post,
+                            comments: comments
+                        } )
                     } );
                 }
             }
@@ -372,24 +393,25 @@ app.get( "/Home/Comedy/:posttitle", ( req, res ) =>
         res.redirect( "/login" )
     }
 } );
-app.get( "/Home/Romance/:posttitle", ( req, res ) =>
+app.get( "/Home/Romance/:posttitle/:id", ( req, res ) =>
 {
-    let namef = req.user.fname
-    let namel = req.user.lname
-    let id = req.user._id;
+
     topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
-        Post.findOne( { title: topic, genre: "Romance" }, ( err, post ) =>
+        let id = req.user._id;
+        Post.findOne( { title: topic, genre: "Romance", _id: req.params.id }, ( err, post ) =>
         {
             if ( !err ) {
                 if ( !post ) {
                     res.redirect( "/Home" );
                 }
                 else {
-                    res.render( "post-akun", {
-                        post: post,
-                        namef: namef,
-                        namel: namel
+                    Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                    {
+                        res.render( "post-akun", {
+                            post: post,
+                            comments: comments
+                        } )
                     } );
                 }
             }
@@ -398,19 +420,25 @@ app.get( "/Home/Romance/:posttitle", ( req, res ) =>
         res.redirect( "/login" )
     }
 } );
-app.get( "/Home/Horror/:posttitle", ( req, res ) =>
+app.get( "/Home/Horror/:posttitle/:id", ( req, res ) =>
 {
     topic = req.params.posttitle;
     if ( req.isAuthenticated() ) {
-        Post.findOne( { title: topic, genre: "Horror" }, ( err, post ) =>
+        let id = req.user._id;
+        Post.findOne( { title: topic, genre: "Horror", _id: req.params.id }, ( err, post ) =>
         {
             if ( !err ) {
                 if ( !post ) {
                     res.redirect( "/Home" );
                 }
                 else {
-                    res.render( "post-akun", {
-                        post: post
+
+                    Comment.find( { postId: req.params.id }, ( err, comments ) =>
+                    {
+                        res.render( "post-akun", {
+                            post: post,
+                            comments: comments
+                        } )
                     } );
                 }
             }
@@ -515,14 +543,18 @@ app.post( "/Home/:genre/:title/comment/:id", ( req, res, post ) =>
         let title = req.params.title;
         let id = req.user._id;
         let post = req.params.id;
+        let lname = req.user.lname;
+        let fname = req.user.fname;
         const comment = new Comment( {
             userId: id,
             postId: post,
-            komen: req.body.Komentar
+            komen: req.body.Komentar,
+            fname: fname,
+            lname: lname
         } );
         comment.save();
 
-        res.redirect( "/Home/" + genre + "/" + title )
+        res.redirect( "/Home/" + genre + "/" + title + "/" + post )
     } else {
         res.redirect( "/login" )
     }

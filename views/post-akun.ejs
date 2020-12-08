@@ -22,22 +22,29 @@
             <img src="https://www.flaticon.com/svg/static/icons/svg/1076/1076745.svg" alt="" style="width: 3%;">
         </a>
     </div>
-    <div id="comment-list">
+    <div class="comment-list">
         <h1>Daftar Komentar : </h1>
-       
+        <div class="list">
+            <% comments.forEach(comment => { %>
+                <div class="komentator">
+                    <p><%=comment.fname%> <%=comment.lname %> </p>
+                    <p><%= comment.komen %> </p>
+                </div>
+            <% }) %>
+        </div> 
     </div>
 
 
 
 </section>
 <div class="komentar">
-    /Home/:genre/:title/comment/:id
     <form action="/Home/<%=post.genre%>/<%=post.title%>/comment/<%= post._id %> " method="POST" autocomplete="off">
-        <h2>Komentarlah di bawah sini : </h2>
-        <input type="text" name="Nama" placeholder="Nama" value="<%= namef %> <%=namel %>" />
-     
-        <input type="text" name="Komentar" placeholder="Komen" />
-        <button type="submit" class="btn btn-dark mt-5">Comment</button>
+        <h5>Komentarlah di bawah sini : </h5>
+        <div class="form-froup">
+            <!-- <input type="text" class="form-control " name="Komentar" autocomplete="off" placeholder="Komentar" > -->
+            <textarea name="Komentar" class="form-control"  placeholder="Komentar" cols="40" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-dark mt-5 btn-komen">Comment</button>
     </form>
 </div>
 <%- include  ("component/footer")-%>
