@@ -91,7 +91,6 @@ const userSchema = new mongoose.Schema( {
     postId: [ {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Post',
-
     } ]
 } );
 const commentSchema = new mongoose.Schema( {
@@ -204,7 +203,6 @@ app.get( "/about", ( req, res ) =>
     {
         res.render( "about", {
             posts: posts
-            // genre: "Romance"
         } )
     } )
 } );
@@ -359,7 +357,6 @@ app.get( "/Home/About", ( req, res ) =>
         {
             res.render( "about-akun", {
                 posts: posts
-                // genre: "Romance"
             } )
         } )
     } else {
@@ -593,7 +590,10 @@ app.put( "/profil/edit/:id", async ( req, res, next ) =>
     next()
 }, saveArticleAndRedirect( 'profil' ) )
 
-
+app.use( ( req, res ) =>
+{
+    res.status( 404 ).render( '404' )
+} )
 app.listen( process.env.PORT || 3000, function ()
 {
     console.log( "Express server listening on port %d in %s mode", this.address().port, app.settings.env );
